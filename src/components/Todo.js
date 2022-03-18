@@ -32,6 +32,7 @@ function Task({ task, index, completeTask, removeTask }) {
       style={{ textDecoration: task.completed ? "line-through" : "" }}
     >
       {task.title}
+
       <button onClick={() => removeTask(index)}>X</button>
       <button onClick={() => completeTask(index)}>✓</button>
     </div>
@@ -42,9 +43,9 @@ function Todo() {
   const [tasksRemaining, setTasksRemaining] = useState(0);
 
   const [tasks, setTasks] = useState([
-    { title: "Grab some Pizza", completed: true },
-    { title: "Do your workout", completed: true },
-    { title: "Hangout with friends", completed: false },
+    { title: "Learn Javascript", completed: true },
+    { title: "Learn React", completed: true },
+    { title: "Take a coding test", completed: false },
   ]);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ function Todo() {
 
   return (
     <div className="todo-container">
-      <div className="header">Pending tasks: {tasksRemaining}</div>
+      <div className="header">todos</div>
       <div className="tasks">
         {tasks.map((task, index) => (
           <Task
@@ -85,6 +86,12 @@ function Todo() {
       <div className="create-task">
         <CreateTask addTask={addTask} />
       </div>
+      <footer className="footer">
+        <span>Pending tasks: {tasksRemaining}</span>
+        <button>All</button>
+        <button>Active</button>
+        <button>Completed</button>
+      </footer>
     </div>
   );
 }

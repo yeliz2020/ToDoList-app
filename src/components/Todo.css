@@ -1,9 +1,14 @@
 body {
     background: rgb(245, 245, 245);
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .task button:first-child {
     background: rgb(237, 15, 1);
+}
+
+.task button:last-child {
+    float: left;
 }
 
 .todo-container {
@@ -36,7 +41,7 @@ body {
 
 .header {
     margin: 0.5em;
-    font-size: 2em;
+    font-size: 3em;
     text-align: center;
 }
 
@@ -46,4 +51,16 @@ body {
     outline: none;
     border: none;
     padding: 0.7em;
+}
+
+.footer {
+    color: #777;
+    padding: 10px 15px;
+    height: 20px;
+    text-align: center;
+    border-top: 1px solid #e6e6e6;
+}
+
+.footer>span {
+    float: left;
 }
