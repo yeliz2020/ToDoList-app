@@ -12,7 +12,7 @@ body {
 }
 
 .todo-container {
-    background: rgb(41, 33, 33);
+    background: rgb(67, 65, 65);
     width: 50vw;
     margin: 10em auto;
     border-radius: 15px;
@@ -41,7 +41,7 @@ body {
 
 .header {
     margin: 0.5em;
-    font-size: 3em;
+    font-size: 4em;
     text-align: center;
 }
 
