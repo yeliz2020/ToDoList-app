@@ -1,56 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "./Todo.css";
-
-function CreateTask({ addTask }) {
-  const [value, setValue] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!value) {
-      return;
-    }
-    addTask(value);
-    setValue("");
-  };
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="input"
-        value={value}
-        placeholder="Add a new task"
-        onChange={(e) => setValue(e.target.value)}
-      />
-    </form>
-  );
-}
-
-function Task({ task, index, completeTask, removeTask }) {
-  return (
-    <div
-      className="task"
-      style={{ textDecoration: task.completed ? "line-through" : "" }}
-    >
-      {task.title}
-
-      <button onClick={() => removeTask(index)}>X</button>
-      <button onClick={() => completeTask(index)}>✓</button>
-    </div>
-  );
-}
+import CreateTask from "../CreateTask/CreateTask";
+import Task from "../Task/Task";
+import FilterButton from "../FilterButton/FilterButton";
 
 function Todo() {
   const [tasksRemaining, setTasksRemaining] = useState(0);
+  const [tasksCompleted, setTasksCompleted] = useState(0);
+  const [filter, setFilter] = useState("All");
 
   const [tasks, setTasks] = useState([
     { title: "Learn Javascript", completed: true },
     { title: "Learn React", completed: true },
-    { title: "Take a coding test", completed: false },
+    { title: "Learn SQL", completed: false },
   ]);
 
   useEffect(() => {
     setTasksRemaining(tasks.filter((task) => !task.completed).length);
   }, [tasks]);
+  useEffect(() => {
+    setTasksCompleted(tasks.filter((task) => task.completed).length);
+  }, [tasks]);
+
+  const FILTER_MAP = {
+    All: () => true,
+    Active: (task) => !task.completed,
+    Completed: (task) => task.completed,
+  };
+  const FILTER_NAMES = Object.keys(FILTER_MAP);
 
   const addTask = (title) => {
     const newTasks = [...tasks, { title, completed: false }];
@@ -75,8 +52,27 @@ function Todo() {
   return (
     <div className="todo-container">
       <div className="header">todos</div>
+      <div className="filter-button">
+        {FILTER_NAMES.map((name) => (
+          <FilterButton
+            key={name}
+            name={name}
+            isPressed={name === filter}
+            setFilter={setFilter}
+          />
+        ))}
+      </div>
+
+      <div className="counter">
+        <span>All: {tasks.length}</span>
+        {" --- "}
+        <span>Active: {tasksRemaining}</span>
+        {" --- "}
+        <span>Completed: {tasksCompleted}</span>
+      </div>
+
       <div className="tasks">
-        {tasks.map((task, index) => (
+        {tasks.filter(FILTER_MAP[filter]).map((task, index) => (
           <Task
             task={task}
             index={index}
@@ -89,12 +85,6 @@ function Todo() {
       <div className="create-task">
         <CreateTask addTask={addTask} />
       </div>
-      <footer className="footer">
-        <span>Pending tasks: {tasksRemaining}</span>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
-      </footer>
     </div>
   );
 }
